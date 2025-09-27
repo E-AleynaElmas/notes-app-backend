@@ -42,7 +42,7 @@ class NoteResponse(NoteBase):
     updated_at: datetime
 
     class Config:
-        from_attributes = True
+        orm_mode = True
 
 class NotesListResponse(BaseModel):
     notes: List[NoteResponse]
