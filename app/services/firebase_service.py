@@ -42,10 +42,18 @@ class FirebaseService:
     async def verify_user(self, id_token: str) -> Optional[Dict[str, Any]]:
         """Verify Firebase ID token"""
         try:
+            if not id_token or not id_token.strip():
+                logger.error("Empty or None token provided")
+                return None
+
+            # Log first few chars for debugging (don't log full token for security)
+            logger.info(f"Verifying token starting with: {id_token[:20]}...")
+
             decoded_token = firebase_auth.verify_id_token(id_token)
+            logger.info(f"Token verified successfully for user: {decoded_token.get('uid')}")
             return decoded_token
         except Exception as e:
-            logger.error(f"Error verifying token: {str(e)}")
+            logger.error(f"Error verifying token: {type(e).__name__}: {str(e)}")
             return None
 
     # Note operations
@@ -70,16 +78,12 @@ class FirebaseService:
     ) -> Dict[str, Any]:
         """Get all notes for a user with optional search and pagination"""
         try:
-            # Base query
+            # Base query - no ordering to avoid composite index requirement
             query = self.notes_collection().where(
                 filter=FieldFilter('user_id', '==', user_id)
             )
 
-            # Order by pinned status first, then by updated_at
-            query = query.order_by('is_pinned', direction=firestore.Query.DESCENDING)
-            query = query.order_by('updated_at', direction=firestore.Query.DESCENDING)
-
-            # Get all documents for search/filtering
+            # Get all documents for search/filtering (no ordering in Firestore)
             all_docs = query.stream()
             all_notes = []
 
@@ -96,6 +100,12 @@ class FirebaseService:
                         all_notes.append(note_data)
                 else:
                     all_notes.append(note_data)
+
+            # Sort by pinned status first, then by updated_at (in memory)
+            all_notes.sort(key=lambda x: (
+                not x.get('is_pinned', False),  # Pinned notes first (False sorts before True)
+                x.get('updated_at')  # Then by updated_at descending
+            ), reverse=True)
 
             # Apply pagination
             total = len(all_notes)

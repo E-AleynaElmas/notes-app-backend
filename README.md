@@ -31,10 +31,19 @@ app/
 
 ## 🚀 Quick Start
 
+### Prerequisites
+- **Python 3.11** (strongly recommended for best compatibility)
+- pip (latest version)
+
 1. **Create virtual environment**
    ```bash
-   python3 -m venv venv
+   # Recommended: Use Python 3.11 specifically
+   python3.11 -m venv venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+   # Alternative: Use default Python 3 (ensure it's 3.11)
+   python3 -m venv venv
+   source venv/bin/activate
    ```
 
 2. **Install dependencies**
@@ -101,8 +110,8 @@ Authorization: Bearer YOUR_FIREBASE_ID_TOKEN
 ## 🛠️ Development
 
 ```bash
-# Create and activate virtual environment
-python3 -m venv venv
+# Create and activate virtual environment (Python 3.11 recommended)
+python3.11 -m venv venv
 source venv/bin/activate
 
 # Install dependencies
@@ -114,17 +123,41 @@ uvicorn app.main:app --reload
 
 # Run on specific port
 uvicorn app.main:app --port 8080
+
+# Run with both reload and custom port
+uvicorn app.main:app --port 8080 --reload
 ```
 
 ## 🐛 Troubleshooting
 
 ### Python Version Compatibility
-This project is optimized for Python 3.11. For best compatibility:
+This project is **optimized for Python 3.11** and tested with this version. For best compatibility:
 
-1. Use Python 3.11: `brew install python@3.11`
-2. Create venv with: `python3.11 -m venv venv`
-3. Use exact versions in `requirements.txt`
-4. Ensure virtual environment is activated
+1. **Install Python 3.11**:
+   ```bash
+   # macOS with Homebrew
+   brew install python@3.11
+
+   # Ubuntu/Debian
+   sudo apt update && sudo apt install python3.11 python3.11-venv
+
+   # Verify installation
+   python3.11 --version
+   ```
+
+2. **Create virtual environment with Python 3.11**:
+   ```bash
+   python3.11 -m venv venv
+   source venv/bin/activate
+   ```
+
+3. **Install dependencies with exact versions**:
+   ```bash
+   pip install --upgrade pip
+   pip install -r requirements.txt
+   ```
+
+4. **Always ensure virtual environment is activated** before running commands
 
 ### Common Issues
 - **Port already in use**: Use `--port 8001` or kill existing process
