@@ -91,6 +91,7 @@ Authorization: Bearer YOUR_FIREBASE_ID_TOKEN
   "content": "string",
   "is_pinned": "boolean",
   "tags": ["string"],
+  "color": "#FFFFFF",
   "created_at": "timestamp",
   "updated_at": "timestamp",
   "synced": "boolean"
@@ -117,12 +118,13 @@ uvicorn app.main:app --port 8080
 
 ## 🐛 Troubleshooting
 
-### Python 3.13 Compatibility
-This project is optimized for Python 3.13. If you encounter build issues:
+### Python Version Compatibility
+This project is optimized for Python 3.11. For best compatibility:
 
-1. Use the exact versions in `requirements.txt`
-2. Ensure virtual environment is activated
-3. Update pip: `pip install --upgrade pip`
+1. Use Python 3.11: `brew install python@3.11`
+2. Create venv with: `python3.11 -m venv venv`
+3. Use exact versions in `requirements.txt`
+4. Ensure virtual environment is activated
 
 ### Common Issues
 - **Port already in use**: Use `--port 8001` or kill existing process
@@ -134,11 +136,13 @@ This project is optimized for Python 3.13. If you encounter build issues:
 - ✅ CRUD operations for notes
 - ✅ Search functionality
 - ✅ Pagination support
+- ✅ Note color customization (hex format)
 - ✅ Firebase authentication integration
 - ✅ Data validation with Pydantic
 - ✅ Proper error handling
 - ✅ CORS configuration
 - ✅ Comprehensive logging
+- ✅ Python 3.11 compatible
 
 ## 🔧 Configuration
 
