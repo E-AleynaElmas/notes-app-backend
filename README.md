@@ -31,18 +31,25 @@ app/
 
 ## 🚀 Quick Start
 
-1. **Install dependencies**
+1. **Create virtual environment**
    ```bash
+   python3 -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
+
+2. **Install dependencies**
+   ```bash
+   pip install --upgrade pip
    pip install -r requirements.txt
    ```
 
-2. **Configure environment**
+3. **Configure environment**
    ```bash
    cp .env.example .env
-   # Edit .env with your Firebase credentials
+   # Edit .env with your Firebase Service Account credentials
    ```
 
-3. **Run the application**
+4. **Run the application**
    ```bash
    uvicorn app.main:app --reload --port 8000
    ```
@@ -93,7 +100,12 @@ Authorization: Bearer YOUR_FIREBASE_ID_TOKEN
 ## 🛠️ Development
 
 ```bash
-# Install development dependencies
+# Create and activate virtual environment
+python3 -m venv venv
+source venv/bin/activate
+
+# Install dependencies
+pip install --upgrade pip
 pip install -r requirements.txt
 
 # Run with auto-reload
@@ -102,6 +114,20 @@ uvicorn app.main:app --reload
 # Run on specific port
 uvicorn app.main:app --port 8080
 ```
+
+## 🐛 Troubleshooting
+
+### Python 3.13 Compatibility
+This project is optimized for Python 3.13. If you encounter build issues:
+
+1. Use the exact versions in `requirements.txt`
+2. Ensure virtual environment is activated
+3. Update pip: `pip install --upgrade pip`
+
+### Common Issues
+- **Port already in use**: Use `--port 8001` or kill existing process
+- **Import errors**: Ensure virtual environment is activated
+- **Firebase errors**: Check `.env` configuration
 
 ## 📋 Features
 
