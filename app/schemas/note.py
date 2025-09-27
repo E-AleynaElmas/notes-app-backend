@@ -7,12 +7,19 @@ class NoteBase(BaseModel):
     content: str = Field(..., min_length=1, max_length=10000)
     is_pinned: bool = False
     tags: Optional[List[str]] = []
+    color: Optional[str] = Field(default="#FFFFFF", regex="^#[0-9A-Fa-f]{6}$")
 
     @validator('title', 'content')
     def validate_not_empty(cls, v):
         if not v or not v.strip():
             raise ValueError('Field cannot be empty or whitespace')
         return v.strip()
+
+    @validator('color')
+    def validate_color(cls, v):
+        if v is None:
+            return "#FFFFFF"
+        return v.upper()
 
 class NoteCreate(NoteBase):
     pass
@@ -22,12 +29,19 @@ class NoteUpdate(BaseModel):
     content: Optional[str] = Field(None, min_length=1, max_length=10000)
     is_pinned: Optional[bool] = None
     tags: Optional[List[str]] = None
+    color: Optional[str] = Field(None, regex="^#[0-9A-Fa-f]{6}$")
 
     @validator('title', 'content')
     def validate_not_empty_if_provided(cls, v):
         if v is not None and (not v or not v.strip()):
             raise ValueError('Field cannot be empty or whitespace')
         return v.strip() if v else v
+
+    @validator('color')
+    def validate_color_if_provided(cls, v):
+        if v is not None:
+            return v.upper()
+        return v
 
 class NoteInDB(NoteBase):
     id: str

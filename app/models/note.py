@@ -12,6 +12,7 @@ class NoteModel:
         content: str = None,
         is_pinned: bool = False,
         tags: list = None,
+        color: str = "#FFFFFF",
         created_at: datetime = None,
         updated_at: datetime = None,
         synced: bool = True
@@ -22,6 +23,7 @@ class NoteModel:
         self.content = content
         self.is_pinned = is_pinned
         self.tags = tags or []
+        self.color = color or "#FFFFFF"
         self.created_at = created_at or datetime.utcnow()
         self.updated_at = updated_at or datetime.utcnow()
         self.synced = synced
@@ -34,6 +36,7 @@ class NoteModel:
             'content': self.content,
             'is_pinned': self.is_pinned,
             'tags': self.tags,
+            'color': self.color,
             'created_at': self.created_at,
             'updated_at': self.updated_at,
             'synced': self.synced
@@ -49,6 +52,7 @@ class NoteModel:
             content=doc_dict.get('content'),
             is_pinned=doc_dict.get('is_pinned', False),
             tags=doc_dict.get('tags', []),
+            color=doc_dict.get('color', '#FFFFFF'),
             created_at=doc_dict.get('created_at'),
             updated_at=doc_dict.get('updated_at'),
             synced=doc_dict.get('synced', True)

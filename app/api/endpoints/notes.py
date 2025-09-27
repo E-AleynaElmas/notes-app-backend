@@ -47,6 +47,7 @@ async def get_notes(
                 content=note_data['content'],
                 is_pinned=note_data.get('is_pinned', False),
                 tags=note_data.get('tags', []),
+                color=note_data.get('color', '#FFFFFF'),
                 created_at=note_data['created_at'],
                 updated_at=note_data['updated_at']
             ))
@@ -81,7 +82,8 @@ async def create_note(
             title=note.title,
             content=note.content,
             is_pinned=note.is_pinned,
-            tags=note.tags
+            tags=note.tags,
+            color=note.color
         )
 
         # Save to Firestore
@@ -102,6 +104,7 @@ async def create_note(
             content=created_note['content'],
             is_pinned=created_note.get('is_pinned', False),
             tags=created_note.get('tags', []),
+            color=created_note.get('color', '#FFFFFF'),
             created_at=created_note['created_at'],
             updated_at=created_note['updated_at']
         )
@@ -136,6 +139,8 @@ async def update_note(
             update_data['is_pinned'] = note_update.is_pinned
         if note_update.tags is not None:
             update_data['tags'] = note_update.tags
+        if note_update.color is not None:
+            update_data['color'] = note_update.color
 
         # Update note
         success = await firebase.update_note(
@@ -165,6 +170,7 @@ async def update_note(
             content=updated_note['content'],
             is_pinned=updated_note.get('is_pinned', False),
             tags=updated_note.get('tags', []),
+            color=updated_note.get('color', '#FFFFFF'),
             created_at=updated_note['created_at'],
             updated_at=updated_note['updated_at']
         )
