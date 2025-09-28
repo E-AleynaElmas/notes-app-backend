@@ -104,8 +104,8 @@ class FirebaseService:
             # Sort by pinned status first, then by updated_at (in memory)
             all_notes.sort(key=lambda x: (
                 not x.get('is_pinned', False),  # Pinned notes first (False sorts before True)
-                x.get('updated_at')  # Then by updated_at descending
-            ), reverse=True)
+                -(x.get('updated_at').timestamp() if x.get('updated_at') else 0)  # Then by updated_at descending
+            ))
 
             # Apply pagination
             total = len(all_notes)
